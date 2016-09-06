@@ -62,7 +62,7 @@ load('ex3weights.mat');
 
 pred = predict(Theta1, Theta2, X);
 
-#fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
+fprintf('\nTraining Set Accuracy: %f\n', mean(double(pred == y)) * 100);
 
 fprintf('Program paused. Press enter to continue.\n');
 pause;
@@ -77,7 +77,7 @@ for i = 1:m
     % Display 
     fprintf('\nDisplaying Example Image\n');
     displayData(X(rp(i), :));
-
+    %be carefull in this part, first count a next add column of ones
     pred = predict(Theta1, Theta2, X(rp(i),:));
     fprintf('\nNeural Network Prediction: %d (digit %d)\n', pred, mod(pred, 10));
     

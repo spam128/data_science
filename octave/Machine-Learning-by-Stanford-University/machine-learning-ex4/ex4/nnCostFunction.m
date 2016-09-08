@@ -26,8 +26,8 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 m = size(X, 1);
 % You need to return the following variables correctly 
 J = 0;
-Theta1_grad = zeros(size(Theta1));
-Theta2_grad = zeros(size(Theta2));
+Theta1_grad = zeros(size(Theta1)); %25c401
+Theta2_grad = zeros(size(Theta2)); %10x26
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
@@ -67,8 +67,22 @@ J=sum(J(:)) +lambda*(sum(Theta1(:,2:size(Theta1,2))(:).^2)+sum(Theta2(:,2:size(T
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+delta3=y2-a3;
 
-%
+%--------delta2=(Theta2(:,2:size(Theta2,2))'*delta3')'.*a2.*(1-a2);%5000x25
+
+%--------delta1=(Theta1(:,2:size(Theta1,2))'*delta2')'.*X.*(1-X);%5000x400
+delta2=delta3*Theta2.*[ones(size(a2,1),1) a2].*(1-[ones(size(a2,1),1) a2]); %delta3*theta2*g'(a2)
+%-------------Theta2(:,2:size(Theta2,2))
+delta1=delta2(:,2:size(delta2,2))*Theta1.*[ones(size(X,1),1) X].*(1-[ones(size(X,1),1) X]);%.*X.*(1-X);
+%--------------Theta1(:,2:size(Theta1,2))
+%--------delta1=delta1(:,2:size(delta1,2));
+
+Theta2_grad=-(delta3'*[ones(size(a2,1),1) a2]/m); % 10x26
+
+%&&&&&&&&&&&&&&6Theta2_grad=Theta2_grad(2:size(Theta2_grad,2),:);
+Theta1_grad=-(delta2(:,2:size(delta2,2))'*[ones(size(X,1),1) X]/m); % 25x401 
+% 
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -78,8 +92,8 @@ J=sum(J(:)) +lambda*(sum(Theta1(:,2:size(Theta1,2))(:).^2)+sum(Theta2(:,2:size(T
 %
 
 
-
-
+Theta1_grad(:,2:size(Theta1_grad,2))=Theta1_grad(:,2:size(Theta1_grad,2)) + lambda*Theta1(:,2:size(Theta1,2))/m;
+Theta2_grad(:,2:size(Theta2_grad,2))=Theta2_grad(:,2:size(Theta2_grad,2)) + lambda*Theta2(:,2:size(Theta2,2))/m;
 
 
 

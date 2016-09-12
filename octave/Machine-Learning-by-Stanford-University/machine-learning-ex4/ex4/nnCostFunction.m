@@ -49,8 +49,8 @@ for i=1:m
 endfor
 J=(-y2.*log(a3)-(1-y2).*log(1-a3) )/m;
 J=sum(J(:)) +lambda*(sum(Theta1(:,2:size(Theta1,2))(:).^2)+sum(Theta2(:,2:size(Theta2,2))(:).^2))/(2*m); % + regularization without bias
-
-
+display("a2 ····························");
+display(a2(1,2:5));
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
